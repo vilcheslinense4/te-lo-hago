@@ -4,157 +4,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TE LO HAGO | Profesionales cerca de ti</title>
+<meta name="theme-color" content="#1769bd">
+<title>TE LO HAGO</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-:root {
-  --azul: #1769bd;
-  --oscuro: #183451;
-  --fondo: #f1f5fb;
-  --blanco: #ffffff;
-  --gris: #718096;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--fondo);
-  color: var(--oscuro);
-}
-header {
-  background: linear-gradient(135deg,#173c66,#1976c9);
-  color: white;
-  padding: 35px 20px 40px;
-  border-radius: 0 0 28px 28px;
-}
-.logo {
-  text-align: center;
-  font-size: 32px;
-  font-weight: 900;
-  margin: 12px 0 22px;
-}
-.logo span { color: #42c5ee; }
-header p {
-  text-align: center;
-  font-size: 17px;
-  line-height: 1.5;
-}
-.container {
-  max-width: 850px;
-  margin: auto;
-  padding: 20px 16px 100px;
-}
-.account {
-  background: white;
-  border-radius: 18px;
-  padding: 16px;
-  margin-top: -12px;
-  box-shadow: 0 4px 18px #173c6612;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-.account small { color: var(--gris); }
-button {
-  border: 0;
-  border-radius: 12px;
-  padding: 12px 16px;
-  background: var(--azul);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-button.secondary {
-  background: #eaf1fa;
-  color: var(--oscuro);
-}
-h2 { font-size: 22px; margin: 28px 0 15px; }
-.search {
-  display: flex;
-  gap: 8px;
-}
-.search input {
-  flex: 1;
-  min-width: 0;
-  padding: 15px;
-  border: 1px solid #d8e0eb;
-  border-radius: 12px;
-  font-size: 16px;
-  background: white;
-}
-.categories {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 12px;
-}
-.category {
-  background: white;
-  color: var(--oscuro);
-  border: 1px solid #e1e8f1;
-  padding: 18px 10px;
-  border-radius: 15px;
-  text-align: left;
-  font-size: 15px;
-}
-.category.active {
-  background: #e5f1ff;
-  border: 2px solid var(--azul);
-}
-.category span {
-  display: block;
-  font-size: 25px;
-  margin-bottom: 8px;
-}
-.professional {
-  background: white;
-  padding: 17px;
-  border-radius: 17px;
-  margin-bottom: 13px;
-  box-shadow: 0 3px 12px #1834510b;
-}
-.professional img {
-  width: 72px;
-  height: 72px;
-  border-radius: 14px;
-  object-fit: cover;
-  float: right;
-}
-.professional h3 { margin: 0 0 8px; }
-.professional p {
-  color: var(--gris);
-  line-height: 1.5;
-  margin: 7px 0;
-}
-.tag {
-  display: inline-block;
-  color: #1769bd;
-  background: #eaf3ff;
-  border-radius: 20px;
-  padding: 6px 10px;
-  font-size: 12px;
-  font-weight: bold;
-  margin-top: 5px;
-}
-.empty {
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  text-align: center;
-  color: var(--gris);
-  line-height: 1.6;
-}
-.hidden { display: none !important; }
-footer {
-  text-align: center;
-  padding: 25px 10px;
-  color: #8999ad;
-  font-size: 13px;
-}
-@media(min-width:600px) {
-  .categories { grid-template-columns: repeat(4,1fr); }
-}
+*{box-sizing:border-box}
+body{margin:0;background:#f1f5fb;color:#193451;font-family:Arial,sans-serif}
+header{background:linear-gradient(135deg,#173c66,#1976c9);color:white;padding:35px 20px 45px;border-radius:0 0 30px 30px;text-align:center}
+.logo{font-size:34px;font-weight:900;margin:10px 0 20px}
+.logo span{color:#42c5ee}
+header p{font-size:18px;line-height:1.5;margin:0}
+main{max-width:850px;margin:auto;padding:20px 16px 80px}
+.panel{background:white;border-radius:22px;padding:22px;margin:18px 0;box-shadow:0 4px 18px #173c6610}
+h1,h2,h3{color:#193451}
+h1{text-align:center;font-size:29px}
+h2{font-size:22px;margin:25px 0 15px}
+input,select,textarea{width:100%;padding:14px;margin:7px 0;border:1px solid #d5deea;border-radius:12px;font-size:16px;background:white}
+button{border:0;border-radius:12px;padding:14px 18px;background:#1769bd;color:white;font-size:16px;font-weight:bold;cursor:pointer}
+button.secondary{background:#e9f1fa;color:#193451}
+button.full{width:100%;margin-top:10px}
+.tabs{display:flex;gap:8px;margin-bottom:15px}
+.tabs button{flex:1}
+.hidden{display:none!important}
+.message{padding:12px;border-radius:12px;background:#edf5ff;color:#24527d;margin:12px 0;line-height:1.5}
+.error{background:#fff0f0;color:#a32c2c}
+.account{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.account small{color:#718096;overflow-wrap:anywhere}
+.search{display:flex;gap:8px}
+.search input{flex:1;min-width:0}
+.categories{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.category{background:white;color:#193451;border:1px solid #dce5ef;text-align:left;padding:17px 12px}
+.category span{display:block;font-size:26px;margin-bottom:7px}
+.category.active{background:#e5f1ff;border:2px solid #1769bd}
+.professional{background:white;border-radius:17px;padding:17px;margin:12px 0;box-shadow:0 3px 12px #1834510b}
+.professional h3{margin:0 0 8px}
+.professional p{color:#718096;line-height:1.5;margin:7px 0}
+.professional img{width:75px;height:75px;object-fit:cover;border-radius:13px;float:right;margin-left:10px}
+.tag{display:inline-block;background:#eaf3ff;color:#1769bd;border-radius:20px;padding:6px 10px;font-size:12px;font-weight:bold;margin-top:8px}
+.empty{text-align:center;padding:25px;background:white;border-radius:15px;color:#718096;line-height:1.6}
+footer{text-align:center;color:#8b9bb0;padding:25px 10px;font-size:13px}
+@media(min-width:600px){.categories{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 
@@ -165,195 +56,261 @@ footer {
   <p>Encuentra profesionales de confianza cerca de ti.</p>
 </header>
 
-<main class="container">
+<main>
 
-  <section class="account">
+<!-- ACCESO Y REGISTRO -->
+<section id="authSection" class="panel">
+  <h1>Tu cuenta</h1>
+  <div class="tabs">
+    <button id="loginTab">Iniciar sesión</button>
+    <button id="registerTab" class="secondary">Crear cuenta</button>
+  </div>
+
+  <form id="loginForm">
+    <input id="loginEmail" type="email" placeholder="Correo electrónico" required>
+    <input id="loginPassword" type="password" placeholder="Contraseña" required>
+    <button class="full" type="submit">Entrar</button>
+  </form>
+
+  <form id="registerForm" class="hidden">
+    <input id="registerName" type="text" placeholder="Nombre completo" required>
+    <input id="registerEmail" type="email" placeholder="Correo electrónico" required>
+    <input id="registerPhone" type="tel" placeholder="Teléfono">
+    <input id="registerCity" type="text" placeholder="Localidad" value="La Línea de la Concepción">
+    <input id="registerPassword" type="password" placeholder="Contraseña (mínimo 8 caracteres)" minlength="8" required>
+    <button class="full" type="submit">Crear mi cuenta</button>
+  </form>
+
+  <div id="authMessage" class="message hidden"></div>
+</section>
+
+<!-- ZONA DE CLIENTE -->
+<section id="clientSection" class="hidden">
+
+  <div class="panel account">
     <div>
       <strong>👤 Mi cuenta</strong><br>
-      <small id="userEmail">Comprobando sesión...</small>
+      <small id="userEmail"></small>
     </div>
-    <button class="secondary" id="logoutBtn">Salir</button>
-  </section>
+    <button id="logoutButton" class="secondary">Salir</button>
+  </div>
 
-  <section>
-    <h2>¿Qué necesitas?</h2>
-    <div class="search">
-      <input id="searchInput" type="search"
-        placeholder="Ej. fontanero, electricista...">
-      <button id="searchBtn">Buscar</button>
-    </div>
-  </section>
+  <h2>¿Qué necesitas?</h2>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Ej. fontanero, electricista...">
+    <button id="searchButton">Buscar</button>
+  </div>
 
-  <section>
-    <h2>Servicios</h2>
-    <div class="categories" id="categories">
-      <button class="category" data-category="Fontanería">
-        <span>🚿</span>Fontanería
-      </button>
-      <button class="category" data-category="Electricidad">
-        <span>💡</span>Electricidad
-      </button>
-      <button class="category" data-category="Albañilería">
-        <span>🧱</span>Albañilería
-      </button>
-      <button class="category" data-category="Jardinería">
-        <span>🌿</span>Jardinería
-      </button>
-      <button class="category" data-category="Pintura">
-        <span>🎨</span>Pintura
-      </button>
-      <button class="category" data-category="Limpieza">
-        <span>🧹</span>Limpieza
-      </button>
-      <button class="category" data-category="Mudanzas">
-        <span>📦</span>Mudanzas
-      </button>
-      <button class="category" data-category="Reformas">
-        <span>🏠</span>Reformas
-      </button>
-    </div>
-  </section>
+  <h2>Servicios</h2>
+  <div class="categories" id="categories">
+    <button class="category" data-category="Fontanería"><span>🚿</span>Fontanería</button>
+    <button class="category" data-category="Electricidad"><span>💡</span>Electricidad</button>
+    <button class="category" data-category="Albañilería"><span>🧱</span>Albañilería</button>
+    <button class="category" data-category="Jardinería"><span>🌿</span>Jardinería</button>
+    <button class="category" data-category="Pintura"><span>🎨</span>Pintura</button>
+    <button class="category" data-category="Limpieza"><span>🧹</span>Limpieza</button>
+    <button class="category" data-category="Mudanzas"><span>📦</span>Mudanzas</button>
+    <button class="category" data-category="Reformas"><span>🏠</span>Reformas</button>
+  </div>
 
-  <section>
-    <h2 id="resultsTitle">Profesionales disponibles</h2>
-    <div id="professionalList">
-      <div class="empty">Cargando profesionales...</div>
-    </div>
-  </section>
+  <h2 id="resultsTitle">Profesionales disponibles</h2>
+  <div id="professionalList">
+    <div class="empty">Cargando profesionales...</div>
+  </div>
 
-  <footer>
-    TE LO HAGO · Servicios profesionales cerca de ti
-  </footer>
+</section>
+
+<footer>TE LO HAGO · Servicios profesionales cerca de ti</footer>
 </main>
 
 <script>
 const SUPABASE_URL = "https://nqekyrivripxgvibfqkf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_gosLaK8usvl1hUsKmOgQiw_1Z2VeDpu";
 
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let currentUser = null;
+const authSection = document.getElementById("authSection");
+const clientSection = document.getElementById("clientSection");
+const authMessage = document.getElementById("authMessage");
+const professionalList = document.getElementById("professionalList");
+
 let selectedCategory = "";
 
-const list = document.getElementById("professionalList");
-const searchInput = document.getElementById("searchInput");
+function showMessage(message, isError=false) {
+  authMessage.textContent = message;
+  authMessage.classList.remove("hidden","error");
+  if(isError) authMessage.classList.add("error");
+}
 
-async function startApp() {
-  const { data, error } = await db.auth.getSession();
+function showLogin() {
+  document.getElementById("loginForm").classList.remove("hidden");
+  document.getElementById("registerForm").classList.add("hidden");
+  document.getElementById("loginTab").classList.remove("secondary");
+  document.getElementById("registerTab").classList.add("secondary");
+  authMessage.classList.add("hidden");
+}
 
-  if (error || !data.session) {
-    window.location.href = window.location.pathname;
-    return;
-  }
+function showRegister() {
+  document.getElementById("registerForm").classList.remove("hidden");
+  document.getElementById("loginForm").classList.add("hidden");
+  document.getElementById("registerTab").classList.remove("secondary");
+  document.getElementById("loginTab").classList.add("secondary");
+  authMessage.classList.add("hidden");
+}
 
-  currentUser = data.session.user;
-  document.getElementById("userEmail").textContent =
-    currentUser.email || "Cuenta iniciada";
+document.getElementById("loginTab").addEventListener("click",showLogin);
+document.getElementById("registerTab").addEventListener("click",showRegister);
 
+async function showClient(user) {
+  authSection.classList.add("hidden");
+  clientSection.classList.remove("hidden");
+  document.getElementById("userEmail").textContent = user.email || "";
   await loadProfessionals();
 }
 
+async function showAuth() {
+  clientSection.classList.add("hidden");
+  authSection.classList.remove("hidden");
+}
+
+document.getElementById("loginForm").addEventListener("submit",async function(event){
+  event.preventDefault();
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  const {data,error} = await db.auth.signInWithPassword({email,password});
+
+  if(error) {
+    showMessage("No se ha podido iniciar sesión: " + error.message,true);
+    return;
+  }
+
+  await showClient(data.user);
+});
+
+document.getElementById("registerForm").addEventListener("submit",async function(event){
+  event.preventDefault();
+
+  const fullName = document.getElementById("registerName").value.trim();
+  const email = document.getElementById("registerEmail").value.trim();
+  const phone = document.getElementById("registerPhone").value.trim();
+  const city = document.getElementById("registerCity").value.trim();
+  const password = document.getElementById("registerPassword").value;
+
+  const {data,error} = await db.auth.signUp({
+    email,
+    password,
+    options:{
+      emailRedirectTo: window.location.origin + window.location.pathname,
+      data:{
+        full_name:fullName,
+        phone:phone,
+        city:city,
+        role:"client"
+      }
+    }
+  });
+
+  if(error) {
+    showMessage("No se ha podido crear la cuenta: " + error.message,true);
+    return;
+  }
+
+  if(data.session) {
+    await showClient(data.user);
+  } else {
+    showMessage("Cuenta creada. Revisa tu correo electrónico y confirma la dirección para poder entrar.");
+  }
+});
+
 async function loadProfessionals() {
-  list.innerHTML = '<div class="empty">Buscando profesionales...</div>';
+  professionalList.innerHTML = '<div class="empty">Buscando profesionales...</div>';
 
   let query = db
     .from("professional_profiles")
-    .select("id, profession, description, service_area, profile_photo, experience_years, hourly_rate")
-    .eq("status", "approved");
+    .select("id,profession,description,service_area,profile_photo,experience_years,hourly_rate")
+    .eq("status","approved");
 
-  if (selectedCategory) {
-    query = query.ilike("profession", `%${selectedCategory}%`);
+  if(selectedCategory) {
+    query = query.ilike("profession","%" + selectedCategory + "%");
   }
 
-  const search = searchInput.value.trim();
+  const search = document.getElementById("searchInput").value.trim();
 
-  if (search) {
+  if(search) {
     query = query.or(
-      `profession.ilike.%${search}%,service_area.ilike.%${search}%,description.ilike.%${search}%`
+      "profession.ilike.%"+search+"%,service_area.ilike.%"+search+"%,description.ilike.%"+search+"%"
     );
   }
 
-  const { data, error } = await query.limit(30);
+  const {data,error} = await query.limit(30);
 
-  if (error) {
-    list.innerHTML =
-      '<div class="empty">No se han podido cargar los profesionales. Inténtalo de nuevo más tarde.</div>';
+  if(error) {
+    professionalList.innerHTML = '<div class="empty">No se han podido cargar los profesionales. Inténtalo más tarde.</div>';
     console.error(error);
     return;
   }
 
-  if (!data || data.length === 0) {
-    list.innerHTML =
-      '<div class="empty">Todavía no hay profesionales aprobados en esta categoría. ¡Pronto habrá novedades!</div>';
+  if(!data || data.length===0) {
+    professionalList.innerHTML = '<div class="empty">Todavía no hay profesionales aprobados que coincidan con tu búsqueda. ¡Pronto habrá novedades!</div>';
     return;
   }
 
-  list.innerHTML = "";
+  professionalList.innerHTML = "";
 
   data.forEach(pro => {
     const card = document.createElement("article");
     card.className = "professional";
 
+    if(pro.profile_photo) {
+      const img = document.createElement("img");
+      img.src = pro.profile_photo;
+      img.alt = "Foto del profesional";
+      card.appendChild(img);
+    }
+
     const title = document.createElement("h3");
     title.textContent = pro.profession || "Profesional";
 
     const description = document.createElement("p");
-    description.textContent =
-      pro.description || "Profesional disponible para solicitudes de presupuesto.";
+    description.textContent = pro.description || "Consulta con este profesional sus servicios.";
 
     const area = document.createElement("p");
     area.textContent = "📍 " + (pro.service_area || "Zona por confirmar");
 
     const experience = document.createElement("p");
-    experience.textContent =
-      "Experiencia: " +
-      (pro.experience_years ?? "No indicada") +
-      (pro.experience_years === null ? "" : " años");
+    experience.textContent = "Experiencia: " +
+      (pro.experience_years === null ? "No indicada" : pro.experience_years + " años");
 
     const price = document.createElement("p");
     price.textContent = pro.hourly_rate
       ? "Precio orientativo: " + pro.hourly_rate + " €/hora"
       : "Precio: consultar";
 
-    card.append(title, description, area, experience, price);
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = "Perfil aprobado";
 
-    if (pro.profile_photo) {
-      const img = document.createElement("img");
-      img.src = pro.profile_photo;
-      img.alt = "Foto del profesional";
-      card.prepend(img);
-    }
-
-    const approved = document.createElement("span");
-    approved.className = "tag";
-    approved.textContent = "Perfil aprobado";
-    card.append(approved);
-
-    list.append(card);
+    card.append(title,description,area,experience,price,tag);
+    professionalList.appendChild(card);
   });
 }
 
-document.getElementById("searchBtn").addEventListener("click", () => {
-  loadProfessionals();
+document.getElementById("searchButton").addEventListener("click",loadProfessionals);
+
+document.getElementById("searchInput").addEventListener("keydown",function(event){
+  if(event.key==="Enter") loadProfessionals();
 });
 
-searchInput.addEventListener("keydown", event => {
-  if (event.key === "Enter") loadProfessionals();
-});
+document.querySelectorAll(".category").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.querySelectorAll(".category").forEach(item=>item.classList.remove("active"));
 
-document.querySelectorAll(".category").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".category").forEach(b =>
-      b.classList.remove("active")
-    );
-
-    if (selectedCategory === button.dataset.category) {
-      selectedCategory = "";
+    if(selectedCategory===button.dataset.category) {
+      selectedCategory="";
     } else {
-      selectedCategory = button.dataset.category;
+      selectedCategory=button.dataset.category;
       button.classList.add("active");
     }
 
@@ -361,18 +318,43 @@ document.querySelectorAll(".category").forEach(button => {
   });
 });
 
-document.getElementById("logoutBtn").addEventListener("click", async () => {
-  const { error } = await db.auth.signOut();
+document.getElementById("logoutButton").addEventListener("click",async()=>{
+  const {error}=await db.auth.signOut();
 
-  if (error) {
+  if(error) {
     alert("No se ha podido cerrar la sesión.");
     return;
   }
 
-  window.location.reload();
+  await showAuth();
+  showLogin();
 });
 
-startApp();
+db.auth.onAuthStateChange((event,session)=>{
+  if(event==="SIGNED_OUT") {
+    showAuth();
+  }
+});
+
+async function initialize() {
+  const {data,error}=await db.auth.getSession();
+
+  if(error) {
+    showAuth();
+    showMessage("No se ha podido comprobar la sesión. Inténtalo de nuevo.",true);
+    return;
+  }
+
+  if(data.session) {
+    await showClient(data.session.user);
+  } else {
+    await showAuth();
+    showLogin();
+  }
+}
+
+initialize();
 </script>
+
 </body>
 </html>

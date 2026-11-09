@@ -2,285 +2,625 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#102d50">
-<title>TE LO HAGO</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1768bd">
+  <title>TE LO HAGO | Profesionales cerca de ti</title>
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f3f6fb;color:#172b46}
-header{background:linear-gradient(135deg,#102d50,#1764b5);color:white;padding:30px 20px;border-radius:0 0 25px 25px}
-.logo{font-size:30px;font-weight:900}
-.logo span{color:#43c6f5}
-header p{margin-top:10px}
-main{max-width:480px;margin:25px auto;padding:0 17px}
-.card,.account{background:white;padding:23px;border-radius:18px;box-shadow:0 3px 15px #0000000c}
-h2{margin-bottom:20px}
-.tabs{display:flex;gap:10px;margin-bottom:20px}
-button{border:0;border-radius:10px;padding:14px;background:#176bc0;color:white;font-size:15px;font-weight:bold;cursor:pointer}
-.tabs button{flex:1;background:#eaf0f8;color:#173b63}
-.tabs button.active{background:#176bc0;color:white}
-input,select{width:100%;padding:14px;margin:8px 0 17px;border:1px solid #d7dfeb;border-radius:10px;font-size:16px;background:white}
-label{font-size:14px;font-weight:bold}
-.primary{width:100%;margin-top:8px}
-.secondary{background:#eaf0f8;color:#176bc0}
-.hidden{display:none!important}
-.message{padding:13px;border-radius:9px;margin:12px 0;font-size:14px;line-height:1.5;display:none}
-.error{background:#ffeded;color:#a22}
-.success{background:#e8f7ee;color:#176b3b}
-.note{font-size:12px;color:#718096;line-height:1.5;margin-top:15px}
-.account p{margin:12px 0}
-footer{text-align:center;color:#8290a2;font-size:12px;padding:25px}
-</style>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f1f5fb;
+      color: #192e49;
+    }
+
+    header {
+      background: linear-gradient(115deg, #15395f, #176dbd);
+      color: white;
+      padding: 65px 20px 60px;
+      border-radius: 0 0 35px 35px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: clamp(34px, 8vw, 54px);
+      margin: 0 0 24px;
+      font-weight: 850;
+    }
+
+    header h1 span { color: #38c4f0; }
+
+    header p {
+      font-size: 19px;
+      margin: 0;
+    }
+
+    main {
+      width: min(100% - 32px, 650px);
+      margin: 42px auto;
+    }
+
+    .panel {
+      background: white;
+      padding: 30px 24px;
+      border-radius: 30px;
+      box-shadow: 0 12px 35px rgba(20, 48, 80, .06);
+    }
+
+    h2 {
+      font-size: 30px;
+      text-align: center;
+      margin: 10px 0 42px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 17px;
+      padding: 17px 12px;
+      font-size: 17px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .tab {
+      background: #eaf0f8;
+      color: #24466b;
+    }
+
+    .tab.active, .primary {
+      background: #176bc1;
+      color: white;
+    }
+
+    .field { margin-bottom: 23px; }
+
+    label {
+      display: block;
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 11px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 19px 17px;
+      border: 2px solid #d9e2ef;
+      border-radius: 17px;
+      font-size: 17px;
+      background: white;
+      color: #172c45;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #287bc9;
+    }
+
+    .primary {
+      width: 100%;
+      margin-top: 8px;
+      padding: 20px 12px;
+      font-size: 19px;
+    }
+
+    .secondary {
+      width: 100%;
+      margin-top: 15px;
+      background: #eaf0f8;
+      color: #176bc1;
+    }
+
+    .note {
+      color: #7b8ba2;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-top: 25px;
+    }
+
+    .message {
+      display: none;
+      padding: 16px;
+      margin: 20px 0;
+      border-radius: 13px;
+      background: #eaf4ff;
+      color: #174c7c;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .message.error {
+      background: #fff0f0;
+      color: #a12626;
+    }
+
+    .message.success {
+      background: #e9f8ee;
+      color: #176333;
+    }
+
+    .hidden { display: none !important; }
+
+    #account {
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    footer {
+      text-align: center;
+      color: #8998ad;
+      padding: 30px 15px 45px;
+      font-size: 15px;
+    }
+
+    @media (min-width: 600px) {
+      .panel { padding: 40px 38px; }
+      header { padding: 75px 25px 65px; }
+    }
+  </style>
 </head>
 
 <body>
+
 <header>
-<div class="logo">🔧 TE LO <span>HAGO</span></div>
-<p>Encuentra profesionales de confianza cerca de ti.</p>
+  <h1>🔧 TE LO <span>HAGO</span></h1>
+  <p>Encuentra profesionales de confianza cerca de ti.</p>
 </header>
 
 <main>
-<div class="card" id="authCard">
-<h2>Bienvenido a TE LO HAGO</h2>
+  <section class="panel">
 
-<div class="tabs">
-<button id="loginTab" class="active" type="button">Entrar</button>
-<button id="registerTab" type="button">Registrarme</button>
-</div>
+    <h2 id="heading">Bienvenido a TE LO HAGO</h2>
 
-<div id="message" class="message"></div>
+    <div id="authArea">
 
-<form id="registerForm" class="hidden">
-<label>Nombre y apellidos</label>
-<input id="fullName" required maxlength="100" placeholder="Tu nombre completo">
+      <div class="tabs">
+        <button class="tab active" id="loginTab" type="button">
+          Entrar
+        </button>
+        <button class="tab" id="registerTab" type="button">
+          Registrarme
+        </button>
+      </div>
 
-<label>Correo electrónico</label>
-<input id="registerEmail" type="email" required placeholder="Tu correo">
+      <div id="message" class="message" role="status"></div>
 
-<label>Teléfono</label>
-<input id="phone" type="tel" required placeholder="Tu teléfono">
+      <form id="loginForm">
+        <div class="field">
+          <label for="loginEmail">Correo electrónico</label>
+          <input id="loginEmail" type="email"
+            placeholder="Tu correo" autocomplete="email" required>
+        </div>
 
-<label>Localidad</label>
-<input id="city" required maxlength="100" placeholder="Ej. La Línea de la Concepción">
+        <div class="field">
+          <label for="loginPassword">Contraseña</label>
+          <input id="loginPassword" type="password"
+            placeholder="Tu contraseña"
+            autocomplete="current-password" required>
+        </div>
 
-<label>Tipo de cuenta</label>
-<select id="role">
-<option value="client">Cliente</option>
-<option value="professional">Profesional</option>
-</select>
+        <button class="primary" type="submit">Iniciar sesión</button>
+        <button class="secondary" id="forgotButton" type="button">
+          He olvidado mi contraseña
+        </button>
+      </form>
 
-<label>Contraseña</label>
-<input id="registerPassword" type="password" minlength="8" required placeholder="Mínimo 8 caracteres">
+      <form id="registerForm" class="hidden">
+        <div class="field">
+          <label for="fullName">Nombre y apellidos</label>
+          <input id="fullName" type="text"
+            placeholder="Tu nombre completo"
+            autocomplete="name" required>
+        </div>
 
-<button class="primary" type="submit">Crear mi cuenta gratis</button>
+        <div class="field">
+          <label for="registerEmail">Correo electrónico</label>
+          <input id="registerEmail" type="email"
+            placeholder="Tu correo" autocomplete="email" required>
+        </div>
 
-<p class="note">El registro es gratuito. Antes de abrir el servicio al público incorporaremos las condiciones de uso y la política de privacidad.</p>
-</form>
+        <div class="field">
+          <label for="phone">Teléfono</label>
+          <input id="phone" type="tel"
+            placeholder="Tu teléfono" autocomplete="tel" required>
+        </div>
 
-<form id="loginForm">
-<label>Correo electrónico</label>
-<input id="loginEmail" type="email" required placeholder="Tu correo">
+        <div class="field">
+          <label for="city">Localidad</label>
+          <input id="city" type="text"
+            placeholder="Ej. La Línea de la Concepción"
+            autocomplete="address-level2" required>
+        </div>
 
-<label>Contraseña</label>
-<input id="loginPassword" type="password" required placeholder="Tu contraseña">
+        <div class="field">
+          <label for="role">Tipo de cuenta</label>
+          <select id="role" required>
+            <option value="client">Cliente</option>
+            <option value="professional">Profesional</option>
+          </select>
+        </div>
 
-<button class="primary" type="submit">Iniciar sesión</button>
-<button class="secondary primary" id="forgotPassword" type="button">He olvidado mi contraseña</button>
-</form>
-</div>
+        <div class="field">
+          <label for="registerPassword">Contraseña</label>
+          <input id="registerPassword" type="password"
+            placeholder="Mínimo 8 caracteres"
+            minlength="8" autocomplete="new-password" required>
+        </div>
 
-<div class="account hidden" id="accountCard">
-<h2>¡Bienvenido!</h2>
-<p id="accountName"></p>
-<p id="accountRole"></p>
-<p id="accountEmail"></p>
-<div id="accountMessage" class="message"></div>
-<button class="primary" id="logoutButton">Cerrar sesión</button>
-</div>
+        <button class="primary" type="submit">
+          Crear mi cuenta gratis
+        </button>
+
+        <p class="note">
+          El registro es gratuito. Antes de abrir el servicio al público
+          incorporaremos las condiciones de uso y la política de privacidad.
+        </p>
+      </form>
+
+      <div id="resendArea" class="hidden">
+        <button class="secondary" id="resendButton" type="button">
+          Reenviar correo de confirmación
+        </button>
+      </div>
+
+      <form id="recoveryForm" class="hidden">
+        <div class="field">
+          <label for="recoveryEmail">Tu correo electrónico</label>
+          <input id="recoveryEmail" type="email"
+            placeholder="Tu correo" required>
+        </div>
+        <button class="primary" type="submit">
+          Enviar enlace de recuperación
+        </button>
+      </form>
+
+      <form id="newPasswordForm" class="hidden">
+        <div class="field">
+          <label for="newPassword">Nueva contraseña</label>
+          <input id="newPassword" type="password"
+            minlength="8" placeholder="Mínimo 8 caracteres" required>
+        </div>
+        <button class="primary" type="submit">
+          Guardar nueva contraseña
+        </button>
+      </form>
+
+    </div>
+
+    <div id="account" class="hidden">
+      <h2>¡Bienvenido!</h2>
+      <p id="accountName"></p>
+      <p id="accountRole"></p>
+      <button class="primary" id="logoutButton" type="button">
+        Cerrar sesión
+      </button>
+    </div>
+
+  </section>
 </main>
 
-<footer>TE LO HAGO · Servicios profesionales cerca de ti</footer>
+<footer>
+  TE LO HAGO · Servicios profesionales cerca de ti
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://nqekyrivripxgvibfqkf.supabase.co";
-const SUPABASE_KEY = "sb_publishable_gosLaK8usvl1hUsKmOgQiw_1Z2VeDpu";
+(() => {
+  "use strict";
 
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+  const SUPABASE_URL =
+    "https://nqekyrivripxgvibfqkf.supabase.co";
 
-const $ = id => document.getElementById(id);
+  const SUPABASE_KEY =
+    "sb_publishable_gosLaK8usvl1hUsKmOgQiw_1Z2VeDpu";
 
-function notify(text,type="success"){
-  $("message").textContent=text;
-  $("message").className="message "+type;
-  $("message").style.display="block";
-}
+  const APP_URL =
+    "https://vilcheslinense4.github.io/te-lo-hago/";
 
-function showLogin(){
-  $("loginForm").classList.remove("hidden");
-  $("registerForm").classList.add("hidden");
-  $("loginTab").classList.add("active");
-  $("registerTab").classList.remove("active");
-  $("message").style.display="none";
-}
+  const client = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    }
+  );
 
-function showRegister(){
-  $("registerForm").classList.remove("hidden");
-  $("loginForm").classList.add("hidden");
-  $("registerTab").classList.add("active");
-  $("loginTab").classList.remove("active");
-  $("message").style.display="none";
-}
+  const $ = id => document.getElementById(id);
 
-$("loginTab").onclick=showLogin;
-$("registerTab").onclick=showRegister;
+  let lastRegistrationEmail = "";
 
-// REGISTRO
-$("registerForm").addEventListener("submit",async e=>{
-  e.preventDefault();
-  const button=e.submitter;
-  button.disabled=true;
+  function showMessage(message, type = "") {
+    const box = $("message");
+    box.textContent = message;
+    box.className = "message" + (type ? " " + type : "");
+    box.style.display = "block";
+  }
 
-  try{
-    const {data,error}=await db.auth.signUp({
-      email:$("registerEmail").value.trim(),
-      password:$("registerPassword").value,
-      options:{
-        data:{
-          full_name:$("fullName").value.trim(),
-          phone:$("phone").value.trim(),
-          city:$("city").value.trim(),
-          role:$("role").value
+  function hideMessage() {
+    $("message").style.display = "none";
+  }
+
+  function showForm(name) {
+    ["loginForm", "registerForm", "recoveryForm",
+      "newPasswordForm"].forEach(id => {
+        $(id).classList.add("hidden");
+      });
+
+    $("resendArea").classList.add("hidden");
+    $("account").classList.add("hidden");
+    $("authArea").classList.remove("hidden");
+    hideMessage();
+
+    if (name === "login") {
+      $("loginForm").classList.remove("hidden");
+      $("heading").textContent = "Bienvenido a TE LO HAGO";
+      $("loginTab").classList.add("active");
+      $("registerTab").classList.remove("active");
+    }
+
+    if (name === "register") {
+      $("registerForm").classList.remove("hidden");
+      $("heading").textContent = "Crear cuenta gratuita";
+      $("registerTab").classList.add("active");
+      $("loginTab").classList.remove("active");
+    }
+
+    if (name === "recovery") {
+      $("recoveryForm").classList.remove("hidden");
+      $("heading").textContent = "Recuperar contraseña";
+    }
+
+    if (name === "newPassword") {
+      $("newPasswordForm").classList.remove("hidden");
+      $("heading").textContent = "Crear nueva contraseña";
+    }
+  }
+
+  function showAccount(user) {
+    $("authArea").classList.add("hidden");
+    $("account").classList.remove("hidden");
+    $("heading").textContent = "Tu cuenta";
+
+    $("accountName").textContent =
+      "Sesión iniciada: " + (user.email || "");
+
+    loadProfile(user.id);
+  }
+
+  async function loadProfile(userId) {
+    const { data, error } = await client
+      .from("profiles")
+      .select("full_name, role")
+      .eq("id", userId)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Error al cargar perfil:", error.message);
+      return;
+    }
+
+    if (data) {
+      $("accountName").textContent =
+        "Hola, " + (data.full_name || "usuario");
+
+      $("accountRole").textContent =
+        data.role === "professional"
+          ? "Cuenta de profesional"
+          : "Cuenta de cliente";
+    }
+  }
+
+  $("loginTab").addEventListener("click", () => showForm("login"));
+  $("registerTab").addEventListener("click", () => showForm("register"));
+
+  $("loginForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    hideMessage();
+
+    const email = $("loginEmail").value.trim();
+    const password = $("loginPassword").value;
+
+    const { data, error } = await client.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      showMessage(error.message, "error");
+      return;
+    }
+
+    if (data.user) showAccount(data.user);
+  });
+
+  $("registerForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    hideMessage();
+
+    const fullName = $("fullName").value.trim();
+    const email = $("registerEmail").value.trim();
+    const phone = $("phone").value.trim();
+    const city = $("city").value.trim();
+    const role = $("role").value;
+    const password = $("registerPassword").value;
+
+    if (password.length < 8) {
+      showMessage("La contraseña debe tener al menos 8 caracteres.", "error");
+      return;
+    }
+
+    lastRegistrationEmail = email;
+
+    const { data, error } = await client.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: APP_URL,
+        data: {
+          full_name: fullName,
+          phone: phone,
+          city: city,
+          role: role
         }
       }
     });
 
-    if(error)throw error;
-
-    if(data.session){
-      $("registerForm").reset();
-      await loadAccount(data.session.user);
-    }else{
-      notify("Registro recibido. Revisa tu correo para confirmar tu cuenta.");
-      $("registerForm").reset();
+    if (error) {
+      showMessage(error.message, "error");
+      return;
     }
 
-  }catch(error){
-    notify(error.message,"error");
-  }finally{
-    button.disabled=false;
-  }
-});
+    if (data.session && data.user) {
+      showMessage("Tu cuenta se ha creado correctamente.", "success");
+      showAccount(data.user);
+      return;
+    }
 
-// INICIO DE SESIÓN
-$("loginForm").addEventListener("submit",async e=>{
-  e.preventDefault();
-  const button=e.submitter;
-  button.disabled=true;
+    $("resendArea").classList.remove("hidden");
 
-  try{
-    const {data,error}=await db.auth.signInWithPassword({
-      email:$("loginEmail").value.trim(),
-      password:$("loginPassword").value
+    showMessage(
+      "¡Registro recibido! Te hemos enviado un correo para confirmar tu dirección. " +
+      "Abre el mensaje y pulsa el enlace de confirmación. " +
+      "Si no lo encuentras, revisa también la carpeta de spam.",
+      "success"
+    );
+  });
+
+  $("resendButton").addEventListener("click", async () => {
+    const email = lastRegistrationEmail ||
+      $("registerEmail").value.trim();
+
+    if (!email) {
+      showMessage("Introduce tu correo electrónico.", "error");
+      return;
+    }
+
+    const { error } = await client.auth.resend({
+      type: "signup",
+      email,
+      options: {
+        emailRedirectTo: APP_URL
+      }
     });
 
-    if(error)throw error;
-    await loadAccount(data.user);
+    if (error) {
+      showMessage(error.message, "error");
+      return;
+    }
 
-  }catch(error){
-    notify(error.message,"error");
-  }finally{
-    button.disabled=false;
-  }
-});
+    showMessage(
+      "Hemos solicitado un nuevo correo de confirmación. Utiliza el mensaje más reciente.",
+      "success"
+    );
+  });
 
-// RECUPERAR CONTRASEÑA
-$("forgotPassword").onclick=async()=>{
-  const email=$("loginEmail").value.trim();
+  $("forgotButton").addEventListener("click", () => {
+    showForm("recovery");
+  });
 
-  if(!email){
-    notify("Escribe tu correo electrónico primero.","error");
-    return;
-  }
+  $("recoveryForm").addEventListener("submit", async event => {
+    event.preventDefault();
 
-  try{
-    const {error}=await db.auth.resetPasswordForEmail(email,{
-      redirectTo:location.origin+location.pathname
+    const email = $("recoveryEmail").value.trim();
+
+    const { error } = await client.auth.resetPasswordForEmail(email, {
+      redirectTo: APP_URL
     });
 
-    if(error)throw error;
-    notify("Si el correo está registrado, recibirás instrucciones para recuperar tu contraseña.");
+    if (error) {
+      showMessage(error.message, "error");
+      return;
+    }
 
-  }catch(error){
-    notify(error.message,"error");
+    showMessage(
+      "Si la cuenta existe, recibirás un correo para recuperar tu contraseña.",
+      "success"
+    );
+  });
+
+  $("newPasswordForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const password = $("newPassword").value;
+
+    if (password.length < 8) {
+      showMessage("La contraseña debe tener al menos 8 caracteres.", "error");
+      return;
+    }
+
+    const { error } = await client.auth.updateUser({ password });
+
+    if (error) {
+      showMessage(error.message, "error");
+      return;
+    }
+
+    showMessage("Contraseña actualizada correctamente.", "success");
+    showForm("login");
+  });
+
+  $("logoutButton").addEventListener("click", async () => {
+    const { error } = await client.auth.signOut();
+
+    if (error) {
+      showMessage(error.message, "error");
+      return;
+    }
+
+    showForm("login");
+  });
+
+  client.auth.onAuthStateChange((event, session) => {
+    if (event === "PASSWORD_RECOVERY") {
+      showForm("newPassword");
+      return;
+    }
+
+    if (event === "SIGNED_OUT") {
+      showForm("login");
+      return;
+    }
+
+    if (session && session.user) {
+      showAccount(session.user);
+    }
+  });
+
+  async function initialize() {
+    const { data, error } = await client.auth.getSession();
+
+    if (error) {
+      showForm("login");
+      showMessage(error.message, "error");
+      return;
+    }
+
+    if (data.session && data.session.user) {
+      showAccount(data.session.user);
+      return;
+    }
+
+    showForm("login");
   }
-};
 
-// PERFIL
-async function loadAccount(user){
-  const {data,error}=await db.from("profiles")
-    .select("full_name,role")
-    .eq("id",user.id)
-    .maybeSingle();
+  initialize();
 
-  if(error){
-    $("accountMessage").textContent="Error consultando perfil: "+error.message;
-    $("accountMessage").style.display="block";
-    return;
-  }
-
-  $("authCard").classList.add("hidden");
-  $("accountCard").classList.remove("hidden");
-
-  $("accountName").textContent="Nombre: "+(data?.full_name||user.user_metadata?.full_name||"Usuario");
-  $("accountRole").textContent=
-    "Cuenta: "+(data?.role==="professional"?"Profesional":"Cliente");
-  $("accountEmail").textContent="Correo: "+user.email;
-}
-
-// CERRAR SESIÓN
-$("logoutButton").onclick=async()=>{
-  const {error}=await db.auth.signOut();
-
-  if(error){
-    $("accountMessage").textContent=error.message;
-    $("accountMessage").style.display="block";
-    return;
-  }
-
-  $("accountCard").classList.add("hidden");
-  $("authCard").classList.remove("hidden");
-  showLogin();
-};
-
-// COMPROBAR SESIÓN
-async function initialize(){
-  const {data,error}=await db.auth.getSession();
-
-  if(error){
-    notify(error.message,"error");
-    return;
-  }
-
-  if(data.session){
-    await loadAccount(data.session.user);
-  }
-}
-
-initialize();
-
-db.auth.onAuthStateChange((event,session)=>{
-  if(event==="SIGNED_OUT"){
-    $("accountCard").classList.add("hidden");
-    $("authCard").classList.remove("hidden");
-    showLogin();
-  }
-});
+})();
 </script>
+
 </body>
 </html>

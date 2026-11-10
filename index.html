@@ -5,353 +5,960 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#1769bd">
-<title>TE LO HAGO</title>
-
+<title>TE LO HAGO | Servicios profesionales</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+:root {
+  --primary:#1769bd;
+  --primary-dark:#105397;
+  --background:#f3f6fb;
+  --surface:#ffffff;
+  --text:#193451;
+  --muted:#75859a;
+  --border:#e3eaf2;
+  --soft:#eaf3ff;
+  --shadow:0 5px 22px rgba(25,52,81,.06);
+}
+body.dark {
+  --background:#101b2a;
+  --surface:#1b2a3c;
+  --text:#edf4ff;
+  --muted:#a6b5c8;
+  --border:#304257;
+  --soft:#233d5c;
+  --shadow:0 5px 22px rgba(0,0,0,.16);
+}
 *{box-sizing:border-box}
-body{margin:0;background:#f1f5fb;color:#193451;font-family:Arial,sans-serif}
-header{background:linear-gradient(135deg,#173c66,#1976c9);color:white;padding:35px 20px 45px;border-radius:0 0 30px 30px;text-align:center}
-.logo{font-size:34px;font-weight:900;margin:10px 0 20px}
-.logo span{color:#42c5ee}
-header p{font-size:18px;line-height:1.5;margin:0}
-main{max-width:850px;margin:auto;padding:20px 16px 80px}
-.panel{background:white;border-radius:22px;padding:22px;margin:18px 0;box-shadow:0 4px 18px #173c6610}
-h1,h2,h3{color:#193451}
-h1{text-align:center;font-size:29px}
-h2{font-size:22px;margin:25px 0 15px}
-input,select,textarea{width:100%;padding:14px;margin:7px 0;border:1px solid #d5deea;border-radius:12px;font-size:16px;background:white}
-button{border:0;border-radius:12px;padding:14px 18px;background:#1769bd;color:white;font-size:16px;font-weight:bold;cursor:pointer}
-button.secondary{background:#e9f1fa;color:#193451}
-button.full{width:100%;margin-top:10px}
-.tabs{display:flex;gap:8px;margin-bottom:15px}
-.tabs button{flex:1}
-.hidden{display:none!important}
-.message{padding:12px;border-radius:12px;background:#edf5ff;color:#24527d;margin:12px 0;line-height:1.5}
-.error{background:#fff0f0;color:#a32c2c}
-.account{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.account small{color:#718096;overflow-wrap:anywhere}
-.search{display:flex;gap:8px}
-.search input{flex:1;min-width:0}
-.categories{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.category{background:white;color:#193451;border:1px solid #dce5ef;text-align:left;padding:17px 12px}
-.category span{display:block;font-size:26px;margin-bottom:7px}
-.category.active{background:#e5f1ff;border:2px solid #1769bd}
-.professional{background:white;border-radius:17px;padding:17px;margin:12px 0;box-shadow:0 3px 12px #1834510b}
-.professional h3{margin:0 0 8px}
-.professional p{color:#718096;line-height:1.5;margin:7px 0}
-.professional img{width:75px;height:75px;object-fit:cover;border-radius:13px;float:right;margin-left:10px}
-.tag{display:inline-block;background:#eaf3ff;color:#1769bd;border-radius:20px;padding:6px 10px;font-size:12px;font-weight:bold;margin-top:8px}
-.empty{text-align:center;padding:25px;background:white;border-radius:15px;color:#718096;line-height:1.6}
-footer{text-align:center;color:#8b9bb0;padding:25px 10px;font-size:13px}
-@media(min-width:600px){.categories{grid-template-columns:repeat(4,1fr)}}
+body {
+  margin:0;
+  background:var(--background);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+  transition:background .2s,color .2s;
+}
+button,input,select {font:inherit}
+button {cursor:pointer}
+.hidden {display:none!important}
+
+header {
+  background:linear-gradient(125deg,#173c66,#1976c9);
+  color:white;
+  padding:27px 20px 34px;
+  border-radius:0 0 27px 27px;
+}
+.header-inner {max-width:900px;margin:auto}
+.topline {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo {font-size:25px;font-weight:900;letter-spacing:-1px}
+.logo span {color:#48c7ef}
+.header-profile {
+  border:1px solid #ffffff55;
+  background:#ffffff18;
+  color:white;
+  border-radius:50%;
+  width:42px;height:42px;
+  font-size:20px;
+}
+header h1 {
+  color:white;
+  font-size:29px;
+  line-height:1.2;
+  margin:30px 0 9px;
+}
+header p {color:#e0efff;margin:0;line-height:1.5}
+
+main {
+  width:min(100% - 30px,850px);
+  margin:0 auto;
+  padding:22px 0 110px;
+}
+.page {display:none}
+.page.active {display:block}
+
+.section-title {
+  font-size:21px;
+  margin:27px 0 14px;
+}
+.subheading {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+  margin-top:-7px;
+}
+.card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:19px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+.search-card {
+  margin-top:-4px;
+  position:relative;
+}
+.field-label {
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin:12px 0 7px;
+}
+.field {
+  width:100%;
+  min-width:0;
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  color:var(--text);
+  background:var(--background);
+  outline:none;
+}
+.field:focus {border-color:var(--primary)}
+.search-button {
+  width:100%;
+  margin-top:13px;
+  padding:15px;
+  border:0;
+  border-radius:12px;
+  color:white;
+  background:var(--primary);
+  font-weight:700;
+}
+.search-button:active {background:var(--primary-dark)}
+
+.category-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+}
+.category {
+  display:flex;
+  align-items:center;
+  gap:11px;
+  text-align:left;
+  padding:15px 12px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:var(--surface);
+  color:var(--text);
+  font-weight:700;
+}
+.category .emoji {font-size:25px}
+.category.active {
+  background:var(--soft);
+  border-color:var(--primary);
+  color:var(--primary);
+}
+.more-category {
+  width:100%;
+  margin-top:12px;
+  padding:13px;
+  background:var(--soft);
+  color:var(--primary);
+  border:0;
+  border-radius:12px;
+  font-weight:700;
+}
+
+.result-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.result-heading h2 {font-size:21px}
+.result-count {font-size:12px;color:var(--muted)}
+
+.professional {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:16px;
+  margin:12px 0;
+  box-shadow:var(--shadow);
+}
+.professional-top {
+  display:flex;
+  align-items:flex-start;
+  gap:13px;
+}
+.professional-photo {
+  width:65px;height:65px;
+  flex-shrink:0;
+  border-radius:14px;
+  background:var(--soft);
+  object-fit:cover;
+}
+.photo-placeholder {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+}
+.professional h3 {margin:2px 0 6px;font-size:17px}
+.professional p {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+  margin:6px 0;
+}
+.professional-info {flex:1;min-width:0}
+.professional-bottom {
+  border-top:1px solid var(--border);
+  margin-top:13px;
+  padding-top:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.approved {
+  color:#21865a;
+  background:#e8f7ef;
+  padding:6px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:700;
+}
+.favorite-button {
+  border:1px solid var(--border);
+  color:var(--text);
+  background:var(--surface);
+  padding:9px 12px;
+  border-radius:10px;
+}
+.favorite-button.saved {color:#df5267}
+.empty {
+  text-align:center;
+  padding:27px 18px;
+  color:var(--muted);
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  line-height:1.6;
+}
+.empty .empty-icon {font-size:34px;margin-bottom:8px}
+
+.bottom-nav {
+  position:fixed;
+  z-index:20;
+  bottom:0;left:0;right:0;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  padding:9px 4px calc(9px + env(safe-area-inset-bottom));
+  box-shadow:0 -5px 20px rgba(20,45,70,.07);
+}
+.nav-button {
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:5px 1px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  font-size:10px;
+  font-weight:600;
+}
+.nav-icon {font-size:21px}
+.nav-button.active {color:var(--primary)}
+
+.profile-header {
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.avatar {
+  width:58px;height:58px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  background:var(--soft);
+  color:var(--primary);
+  font-size:25px;
+}
+.profile-header h2 {margin:0 0 5px;font-size:19px}
+.profile-header p {margin:0;color:var(--muted);font-size:13px;overflow-wrap:anywhere}
+.setting-row {
+  width:100%;
+  padding:17px 3px;
+  border:0;
+  border-bottom:1px solid var(--border);
+  background:transparent;
+  color:var(--text);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  text-align:left;
+  gap:12px;
+}
+.setting-row:last-child {border-bottom:0}
+.setting-left {display:flex;align-items:center;gap:12px}
+.setting-icon {font-size:21px;width:27px;text-align:center}
+.switch {
+  accent-color:var(--primary);
+  width:20px;height:20px;
+}
+.logout {
+  width:100%;
+  padding:15px;
+  border:1px solid #e7b8b8;
+  background:transparent;
+  color:#cf5050;
+  border-radius:12px;
+  font-weight:700;
+  margin-top:16px;
+}
+.primary {
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:12px;
+  background:var(--primary);
+  color:white;
+  font-weight:700;
+}
+.message {
+  padding:13px;
+  border-radius:12px;
+  background:var(--soft);
+  color:var(--text);
+  margin:12px 0;
+  font-size:14px;
+  line-height:1.5;
+}
+.message.error {background:#fff0f0;color:#a52d2d}
+.auth-wrap {
+  max-width:480px;
+  margin:35px auto;
+}
+.auth-tabs {display:flex;gap:9px;margin:17px 0}
+.auth-tabs button {flex:1}
+.auth-tabs .selected {background:var(--primary);color:white}
+.auth-tabs button:not(.selected) {background:var(--soft);color:var(--text)}
+.auth-form input {margin-bottom:12px}
+.help-item {padding:15px 0;border-bottom:1px solid var(--border);line-height:1.5}
+.help-item:last-child {border-bottom:0}
+.small-note {font-size:12px;color:var(--muted);line-height:1.5}
+footer {text-align:center;color:var(--muted);font-size:12px;padding:25px 0}
+
+@media(min-width:600px) {
+  .category-grid {grid-template-columns:repeat(4,minmax(0,1fr))}
+  header h1 {font-size:35px}
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <div class="logo">🔧 TE LO <span>HAGO</span></div>
-  <p>Encuentra profesionales de confianza cerca de ti.</p>
+  <div class="header-inner">
+    <div class="topline">
+      <div class="logo">TE LO <span>HAGO</span></div>
+      <button class="header-profile" id="headerProfile" aria-label="Mi perfil">👤</button>
+    </div>
+    <h1 id="welcomeTitle">Encuentra a la persona adecuada para lo que necesitas.</h1>
+    <p>Profesionales de tu zona, en un solo lugar.</p>
+  </div>
 </header>
 
 <main>
 
-<!-- ACCESO Y REGISTRO -->
-<section id="authSection" class="panel">
-  <h1>Tu cuenta</h1>
-  <div class="tabs">
-    <button id="loginTab">Iniciar sesión</button>
-    <button id="registerTab" class="secondary">Crear cuenta</button>
-  </div>
-
-  <form id="loginForm">
-    <input id="loginEmail" type="email" placeholder="Correo electrónico" required>
-    <input id="loginPassword" type="password" placeholder="Contraseña" required>
-    <button class="full" type="submit">Entrar</button>
-  </form>
-
-  <form id="registerForm" class="hidden">
-    <input id="registerName" type="text" placeholder="Nombre completo" required>
-    <input id="registerEmail" type="email" placeholder="Correo electrónico" required>
-    <input id="registerPhone" type="tel" placeholder="Teléfono">
-    <input id="registerCity" type="text" placeholder="Localidad" value="La Línea de la Concepción">
-    <input id="registerPassword" type="password" placeholder="Contraseña (mínimo 8 caracteres)" minlength="8" required>
-    <button class="full" type="submit">Crear mi cuenta</button>
-  </form>
-
-  <div id="authMessage" class="message hidden"></div>
-</section>
-
-<!-- ZONA DE CLIENTE -->
-<section id="clientSection" class="hidden">
-
-  <div class="panel account">
-    <div>
-      <strong>👤 Mi cuenta</strong><br>
-      <small id="userEmail"></small>
+<!-- ACCESO -->
+<section id="authSection" class="auth-wrap">
+  <div class="card">
+    <h2>Bienvenido</h2>
+    <p class="subheading">Entra en tu cuenta o crea una nueva.</p>
+    <div class="auth-tabs">
+      <button id="loginTab" class="selected">Iniciar sesión</button>
+      <button id="registerTab">Crear cuenta</button>
     </div>
-    <button id="logoutButton" class="secondary">Salir</button>
+    <form id="loginForm" class="auth-form">
+      <input class="field" id="loginEmail" type="email" placeholder="Correo electrónico" required>
+      <input class="field" id="loginPassword" type="password" placeholder="Contraseña" required>
+      <button class="primary" type="submit">Entrar</button>
+      <button type="button" id="forgotButton" class="more-category">He olvidado mi contraseña</button>
+    </form>
+    <form id="registerForm" class="auth-form hidden">
+      <input class="field" id="registerName" type="text" placeholder="Nombre y apellidos" required>
+      <input class="field" id="registerEmail" type="email" placeholder="Correo electrónico" required>
+      <input class="field" id="registerPhone" type="tel" placeholder="Teléfono">
+      <input class="field" id="registerCity" type="text" placeholder="Localidad" value="La Línea de la Concepción">
+      <input class="field" id="registerPassword" type="password" placeholder="Contraseña (mínimo 8 caracteres)" minlength="8" required>
+      <button class="primary" type="submit">Crear mi cuenta gratis</button>
+    </form>
+    <div id="authMessage" class="message hidden"></div>
   </div>
-
-  <h2>¿Qué necesitas?</h2>
-  <div class="search">
-    <input id="searchInput" type="search" placeholder="Ej. fontanero, electricista...">
-    <button id="searchButton">Buscar</button>
-  </div>
-
-  <h2>Servicios</h2>
-  <div class="categories" id="categories">
-    <button class="category" data-category="Fontanería"><span>🚿</span>Fontanería</button>
-    <button class="category" data-category="Electricidad"><span>💡</span>Electricidad</button>
-    <button class="category" data-category="Albañilería"><span>🧱</span>Albañilería</button>
-    <button class="category" data-category="Jardinería"><span>🌿</span>Jardinería</button>
-    <button class="category" data-category="Pintura"><span>🎨</span>Pintura</button>
-    <button class="category" data-category="Limpieza"><span>🧹</span>Limpieza</button>
-    <button class="category" data-category="Mudanzas"><span>📦</span>Mudanzas</button>
-    <button class="category" data-category="Reformas"><span>🏠</span>Reformas</button>
-  </div>
-
-  <h2 id="resultsTitle">Profesionales disponibles</h2>
-  <div id="professionalList">
-    <div class="empty">Cargando profesionales...</div>
-  </div>
-
 </section>
 
-<footer>TE LO HAGO · Servicios profesionales cerca de ti</footer>
+<!-- INICIO -->
+<section id="homePage" class="page">
+  <div class="card search-card">
+    <h2 style="margin:0 0 4px">¿Qué necesitas?</h2>
+    <p class="subheading">Busca cualquier profesional o servicio.</p>
+    <label class="field-label" for="homeSearch">Servicio u oficio</label>
+    <input class="field" id="homeSearch" placeholder="Ej. entrenador personal, fontanero...">
+    <label class="field-label" for="homeLocation">Localidad o zona</label>
+    <input class="field" id="homeLocation" placeholder="Ej. La Línea de la Concepción" value="La Línea de la Concepción">
+    <button class="search-button" id="homeSearchButton">🔎 Buscar profesionales</button>
+  </div>
+
+  <div class="result-heading">
+    <h2 class="section-title">Categorías populares</h2>
+  </div>
+  <p class="subheading">Accesos rápidos a los servicios más buscados.</p>
+
+  <div class="category-grid" id="homeCategories">
+    <button class="category" data-category="Fontanería"><span class="emoji">🚿</span>Fontanería</button>
+    <button class="category" data-category="Electricidad"><span class="emoji">💡</span>Electricidad</button>
+    <button class="category" data-category="Albañilería"><span class="emoji">🧱</span>Albañilería</button>
+    <button class="category" data-category="Jardinería"><span class="emoji">🌿</span>Jardinería</button>
+    <button class="category" data-category="Pintura"><span class="emoji">🎨</span>Pintura</button>
+    <button class="category" data-category="Limpieza"><span class="emoji">🧹</span>Limpieza</button>
+    <button class="category" data-category="Mudanzas"><span class="emoji">📦</span>Mudanzas</button>
+    <button class="category" data-category="Reformas"><span class="emoji">🏠</span>Reformas</button>
+  </div>
+
+  <button class="more-category" id="allServicesButton">Ver todos los servicios y oficios →</button>
+
+  <h2 class="section-title">Profesionales destacados</h2>
+  <p class="subheading">Perfiles aprobados disponibles en nuestra plataforma.</p>
+  <div id="homeResults">
+    <div class="empty"><div class="empty-icon">🔎</div>Estamos buscando profesionales...</div>
+  </div>
+  <footer>TE LO HAGO · Conectamos personas y profesionales</footer>
+</section>
+
+<!-- BUSCAR -->
+<section id="searchPage" class="page">
+  <h2 class="section-title">Buscar profesionales</h2>
+  <p class="subheading">Escribe el oficio que necesites. No tienes que elegir una categoría.</p>
+  <div class="card">
+    <label class="field-label" for="searchTerm">¿Qué servicio buscas?</label>
+    <input class="field" id="searchTerm" placeholder="Ej. fotógrafo, cuidador de mascotas...">
+    <label class="field-label" for="searchLocation">¿En qué localidad?</label>
+    <input class="field" id="searchLocation" placeholder="Localidad o zona">
+    <button class="search-button" id="doSearchButton">Buscar</button>
+  </div>
+  <div class="result-heading">
+    <h2 class="section-title">Resultados</h2>
+    <span class="result-count" id="resultCount"></span>
+  </div>
+  <div id="searchResults">
+    <div class="empty"><div class="empty-icon">🔍</div>Introduce un oficio para comenzar tu búsqueda.</div>
+  </div>
+</section>
+
+<!-- FAVORITOS -->
+<section id="favoritesPage" class="page">
+  <h2 class="section-title">Mis favoritos</h2>
+  <p class="subheading">Guarda aquí los profesionales que quieras consultar más adelante.</p>
+  <div id="favoritesResults">
+    <div class="empty"><div class="empty-icon">♡</div>Todavía no has guardado profesionales. Cuando encuentres uno que te guste, pulsa el corazón.</div>
+  </div>
+</section>
+
+<!-- SOLICITUDES -->
+<section id="requestsPage" class="page">
+  <h2 class="section-title">Mis solicitudes</h2>
+  <p class="subheading">Consulta los presupuestos y trabajos que solicites.</p>
+  <div class="empty">
+    <div class="empty-icon">📋</div>
+    <strong>Tu actividad aparecerá aquí.</strong>
+    <p>Estamos preparando el sistema para solicitar presupuestos y seguir tus trabajos.</p>
+    <span class="small-note">Esta sección todavía no está conectada a solicitudes reales.</span>
+  </div>
+</section>
+
+<!-- PERFIL -->
+<section id="profilePage" class="page">
+  <h2 class="section-title">Mi perfil</h2>
+  <div class="card">
+    <div class="profile-header">
+      <div class="avatar">👤</div>
+      <div>
+        <h2 id="profileName">Mi cuenta</h2>
+        <p id="profileEmail"></p>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Mi cuenta</h2>
+  <div class="card">
+    <button class="setting-row" id="editDetailsButton">
+      <span class="setting-left"><span class="setting-icon">👤</span>Mis datos personales</span><span>›</span>
+    </button>
+    <button class="setting-row" id="changePasswordButton">
+      <span class="setting-left"><span class="setting-icon">🔒</span>Cambiar contraseña</span><span>›</span>
+    </button>
+  </div>
+
+  <h2 class="section-title">Ajustes generales</h2>
+  <div class="card">
+    <label class="setting-row">
+      <span class="setting-left"><span class="setting-icon">🌙</span>Modo oscuro</span>
+      <input type="checkbox" class="switch" id="darkToggle">
+    </label>
+  </div>
+
+  <h2 class="section-title">Ayuda y soporte</h2>
+  <div class="card">
+    <button class="setting-row" id="helpButton">
+      <span class="setting-left"><span class="setting-icon">❓</span>Preguntas frecuentes</span><span>›</span>
+    </button>
+    <button class="setting-row" id="contactButton">
+      <span class="setting-left"><span class="setting-icon">✉️</span>Contacto y soporte</span><span>›</span>
+    </button>
+  </div>
+
+  <button class="logout" id="logoutButton">Cerrar sesión</button>
+</section>
+
+<!-- AYUDA -->
+<section id="helpPage" class="page">
+  <h2 class="section-title">Ayuda y preguntas frecuentes</h2>
+  <div class="card">
+    <div class="help-item"><strong>¿Cómo encuentro un profesional?</strong><br><span class="subheading">Utiliza el buscador, escribe el oficio y tu localidad.</span></div>
+    <div class="help-item"><strong>¿Puedo buscar cualquier oficio?</strong><br><span class="subheading">Sí. Puedes escribir cualquier servicio en el buscador, aunque no aparezca en las categorías.</span></div>
+    <div class="help-item"><strong>¿Cómo guardo un profesional?</strong><br><span class="subheading">Pulsa el corazón de su ficha para añadirlo a favoritos.</span></div>
+    <div class="help-item"><strong>¿Cómo solicito un presupuesto?</strong><br><span class="subheading">El sistema de solicitudes se incorporará en una próxima fase.</span></div>
+  </div>
+  <button class="search-button" id="backProfileButton">Volver a mi perfil</button>
+</section>
+
+<!-- EDITAR DATOS -->
+<section id="detailsPage" class="page">
+  <h2 class="section-title">Mis datos personales</h2>
+  <div class="card">
+    <label class="field-label">Nombre completo</label>
+    <input class="field" id="editName" placeholder="Nombre completo">
+    <label class="field-label">Correo electrónico</label>
+    <input class="field" id="editEmail" disabled>
+    <p class="small-note">Para cambiar el correo electrónico será necesario verificar la nueva dirección.</p>
+    <button class="search-button" id="saveNameButton">Guardar nombre</button>
+    <div id="detailsMessage" class="message hidden"></div>
+  </div>
+  <button class="more-category" id="backProfileButton2">Volver al perfil</button>
+</section>
+
+<!-- NUEVA CONTRASEÑA -->
+<section id="passwordPage" class="page">
+  <h2 class="section-title">Cambiar contraseña</h2>
+  <div class="card">
+    <label class="field-label">Nueva contraseña</label>
+    <input class="field" type="password" id="newPassword" minlength="8" placeholder="Mínimo 8 caracteres">
+    <label class="field-label">Repetir contraseña</label>
+    <input class="field" type="password" id="repeatPassword" minlength="8" placeholder="Repite la contraseña">
+    <button class="search-button" id="savePasswordButton">Guardar contraseña</button>
+    <div id="passwordMessage" class="message hidden"></div>
+  </div>
+  <button class="more-category" id="backProfileButton3">Volver al perfil</button>
+</section>
+
 </main>
+
+<!-- NAVEGACIÓN INFERIOR -->
+<nav class="bottom-nav hidden" id="bottomNav">
+  <button class="nav-button active" data-page="homePage"><span class="nav-icon">⌂</span>Inicio</button>
+  <button class="nav-button" data-page="searchPage"><span class="nav-icon">⌕</span>Buscar</button>
+  <button class="nav-button" data-page="requestsPage"><span class="nav-icon">▤</span>Solicitudes</button>
+  <button class="nav-button" data-page="favoritesPage"><span class="nav-icon">♡</span>Favoritos</button>
+  <button class="nav-button" data-page="profilePage"><span class="nav-icon">♙</span>Perfil</button>
+</nav>
 
 <script>
 const SUPABASE_URL = "https://nqekyrivripxgvibfqkf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_gosLaK8usvl1hUsKmOgQiw_1Z2VeDpu";
+const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-const authSection = document.getElementById("authSection");
-const clientSection = document.getElementById("clientSection");
-const authMessage = document.getElementById("authMessage");
-const professionalList = document.getElementById("professionalList");
-
+const $ = id => document.getElementById(id);
+let currentUser = null;
 let selectedCategory = "";
+let currentProfessionals = [];
+let favorites = JSON.parse(localStorage.getItem("teloHagoFavorites") || "[]");
 
-function showMessage(message, isError=false) {
-  authMessage.textContent = message;
-  authMessage.classList.remove("hidden","error");
-  if(isError) authMessage.classList.add("error");
+function message(id,text,error=false) {
+  const el=$(id);
+  el.textContent=text;
+  el.classList.remove("hidden","error");
+  if(error) el.classList.add("error");
 }
 
-function showLogin() {
-  document.getElementById("loginForm").classList.remove("hidden");
-  document.getElementById("registerForm").classList.add("hidden");
-  document.getElementById("loginTab").classList.remove("secondary");
-  document.getElementById("registerTab").classList.add("secondary");
-  authMessage.classList.add("hidden");
+function showAuth() {
+  $("authSection").classList.remove("hidden");
+  $("bottomNav").classList.add("hidden");
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 }
 
-function showRegister() {
-  document.getElementById("registerForm").classList.remove("hidden");
-  document.getElementById("loginForm").classList.add("hidden");
-  document.getElementById("registerTab").classList.remove("secondary");
-  document.getElementById("loginTab").classList.add("secondary");
-  authMessage.classList.add("hidden");
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  $(id).classList.add("active");
+  document.querySelectorAll(".nav-button").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===id);
+  });
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(id==="favoritesPage") renderFavorites();
 }
 
-document.getElementById("loginTab").addEventListener("click",showLogin);
-document.getElementById("registerTab").addEventListener("click",showRegister);
-
-async function showClient(user) {
-  authSection.classList.add("hidden");
-  clientSection.classList.remove("hidden");
-  document.getElementById("userEmail").textContent = user.email || "";
-  await loadProfessionals();
+function showApplication(user) {
+  currentUser=user;
+  $("authSection").classList.add("hidden");
+  $("bottomNav").classList.remove("hidden");
+  $("profileEmail").textContent=user.email || "";
+  $("editEmail").value=user.email || "";
+  $("userEmail");
+  loadProfile();
+  showPage("homePage");
+  loadHomeProfessionals();
 }
 
-async function showAuth() {
-  clientSection.classList.add("hidden");
-  authSection.classList.remove("hidden");
-}
+async function loadProfile() {
+  if(!currentUser) return;
+  const {data,error}=await db.from("profiles")
+    .select("full_name,role")
+    .eq("id",currentUser.id)
+    .maybeSingle();
 
-document.getElementById("loginForm").addEventListener("submit",async function(event){
-  event.preventDefault();
-
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
-
-  const {data,error} = await db.auth.signInWithPassword({email,password});
-
-  if(error) {
-    showMessage("No se ha podido iniciar sesión: " + error.message,true);
-    return;
+  if(!error && data) {
+    $("profileName").textContent=data.full_name || "Mi cuenta";
+    $("editName").value=data.full_name || "";
+  } else {
+    $("profileName").textContent="Mi cuenta";
   }
+}
 
-  await showClient(data.user);
+function switchAuth(mode) {
+  $("loginForm").classList.toggle("hidden",mode!=="login");
+  $("registerForm").classList.toggle("hidden",mode!=="register");
+  $("loginTab").classList.toggle("selected",mode==="login");
+  $("registerTab").classList.toggle("selected",mode==="register");
+  $("authMessage").classList.add("hidden");
+}
+
+$("loginTab").addEventListener("click",()=>switchAuth("login"));
+$("registerTab").addEventListener("click",()=>switchAuth("register"));
+
+$("loginForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const {data,error}=await db.auth.signInWithPassword({
+    email:$("loginEmail").value.trim(),
+    password:$("loginPassword").value
+  });
+  if(error) return message("authMessage",error.message,true);
+  showApplication(data.user);
 });
 
-document.getElementById("registerForm").addEventListener("submit",async function(event){
-  event.preventDefault();
+$("registerForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const fullName=$("registerName").value.trim();
+  const email=$("registerEmail").value.trim();
+  const phone=$("registerPhone").value.trim();
+  const city=$("registerCity").value.trim();
+  const password=$("registerPassword").value;
 
-  const fullName = document.getElementById("registerName").value.trim();
-  const email = document.getElementById("registerEmail").value.trim();
-  const phone = document.getElementById("registerPhone").value.trim();
-  const city = document.getElementById("registerCity").value.trim();
-  const password = document.getElementById("registerPassword").value;
-
-  const {data,error} = await db.auth.signUp({
-    email,
-    password,
+  const {data,error}=await db.auth.signUp({
+    email,password,
     options:{
-      emailRedirectTo: window.location.origin + window.location.pathname,
-      data:{
-        full_name:fullName,
-        phone:phone,
-        city:city,
-        role:"client"
-      }
+      emailRedirectTo:window.location.origin+window.location.pathname,
+      data:{full_name:fullName,phone,city,role:"client"}
     }
   });
-
-  if(error) {
-    showMessage("No se ha podido crear la cuenta: " + error.message,true);
-    return;
-  }
-
-  if(data.session) {
-    await showClient(data.user);
-  } else {
-    showMessage("Cuenta creada. Revisa tu correo electrónico y confirma la dirección para poder entrar.");
-  }
+  if(error) return message("authMessage",error.message,true);
+  if(data.session) showApplication(data.user);
+  else message("authMessage","Cuenta creada. Confirma tu correo electrónico para poder iniciar sesión.");
 });
 
-async function loadProfessionals() {
-  professionalList.innerHTML = '<div class="empty">Buscando profesionales...</div>';
+$("forgotButton").addEventListener("click",async()=>{
+  const email=$("loginEmail").value.trim();
+  if(!email) return message("authMessage","Escribe primero tu correo electrónico.",true);
+  const {error}=await db.auth.resetPasswordForEmail(email,{
+    redirectTo:window.location.origin+window.location.pathname
+  });
+  if(error) return message("authMessage",error.message,true);
+  message("authMessage","Si la cuenta existe, recibirás un correo para restablecer la contraseña.");
+});
 
-  let query = db
-    .from("professional_profiles")
+async function searchProfessionals(term="",location="") {
+  const resultIds=["homeResults","searchResults"];
+  resultIds.forEach(id=>{
+    if($(id)) $(id).innerHTML='<div class="empty">Buscando profesionales...</div>';
+  });
+
+  let query=db.from("professional_profiles")
     .select("id,profession,description,service_area,profile_photo,experience_years,hourly_rate")
     .eq("status","approved");
 
+  if(term) {
+    const safe=term.replace(/[,%()]/g," ").trim();
+    if(safe) {
+      query=query.or(
+        "profession.ilike.%"+safe+"%,description.ilike.%"+safe+"%,service_area.ilike.%"+safe+"%"
+      );
+    }
+  }
+
   if(selectedCategory) {
-    query = query.ilike("profession","%" + selectedCategory + "%");
+    query=query.ilike("profession","%"+selectedCategory+"%");
   }
 
-  const search = document.getElementById("searchInput").value.trim();
-
-  if(search) {
-    query = query.or(
-      "profession.ilike.%"+search+"%,service_area.ilike.%"+search+"%,description.ilike.%"+search+"%"
-    );
+  if(location) {
+    query=query.ilike("service_area","%"+location.replace(/[,%()]/g," ").trim()+"%");
   }
 
-  const {data,error} = await query.limit(30);
+  const {data,error}=await query.limit(40);
 
   if(error) {
-    professionalList.innerHTML = '<div class="empty">No se han podido cargar los profesionales. Inténtalo más tarde.</div>';
+    resultIds.forEach(id=>{
+      if($(id)) $(id).innerHTML='<div class="empty">No se han podido cargar los resultados. Inténtalo de nuevo.</div>';
+    });
     console.error(error);
     return;
   }
 
-  if(!data || data.length===0) {
-    professionalList.innerHTML = '<div class="empty">Todavía no hay profesionales aprobados que coincidan con tu búsqueda. ¡Pronto habrá novedades!</div>';
+  currentProfessionals=data || [];
+  renderProfessionalLists();
+}
+
+function createProfessionalCard(pro) {
+  const card=document.createElement("article");
+  card.className="professional";
+
+  const top=document.createElement("div");
+  top.className="professional-top";
+
+  let photo;
+  if(pro.profile_photo) {
+    photo=document.createElement("img");
+    photo.src=pro.profile_photo;
+    photo.alt="Fotografía del profesional";
+    photo.className="professional-photo";
+  } else {
+    photo=document.createElement("div");
+    photo.className="professional-photo photo-placeholder";
+    photo.textContent="👤";
+  }
+
+  const info=document.createElement("div");
+  info.className="professional-info";
+
+  const title=document.createElement("h3");
+  title.textContent=pro.profession || "Profesional";
+
+  const area=document.createElement("p");
+  area.textContent="📍 "+(pro.service_area || "Zona no indicada");
+
+  info.append(title,area);
+  top.append(photo,info);
+  card.append(top);
+
+  if(pro.description) {
+    const description=document.createElement("p");
+    description.textContent=pro.description;
+    card.append(description);
+  }
+
+  const experience=document.createElement("p");
+  experience.textContent="Experiencia: "+
+    (pro.experience_years===null ? "No indicada" : pro.experience_years+" años");
+
+  const price=document.createElement("p");
+  price.textContent=pro.hourly_rate
+    ? "Precio orientativo: "+pro.hourly_rate+" €/hora"
+    : "Precio: consultar";
+
+  card.append(experience,price);
+
+  const bottom=document.createElement("div");
+  bottom.className="professional-bottom";
+
+  const approved=document.createElement("span");
+  approved.className="approved";
+  approved.textContent="✓ Perfil aprobado";
+
+  const favorite=document.createElement("button");
+  favorite.className="favorite-button";
+  favorite.textContent=favorites.includes(pro.id)?"♥ Guardado":"♡ Favorito";
+  if(favorites.includes(pro.id)) favorite.classList.add("saved");
+
+  favorite.addEventListener("click",()=>{
+    toggleFavorite(pro.id);
+    favorite.textContent=favorites.includes(pro.id)?"♥ Guardado":"♡ Favorito";
+    favorite.classList.toggle("saved",favorites.includes(pro.id));
+  });
+
+  bottom.append(approved,favorite);
+  card.append(bottom);
+  return card;
+}
+
+function renderProfessionalLists() {
+  ["homeResults","searchResults"].forEach(id=>{
+    const container=$(id);
+    if(!container) return;
+    container.innerHTML="";
+    if(currentProfessionals.length===0) {
+      container.innerHTML='<div class="empty"><div class="empty-icon">🔎</div>No hemos encontrado profesionales aprobados con esos criterios. Prueba con otro oficio o localidad.</div>';
+      return;
+    }
+    currentProfessionals.forEach(pro=>container.append(createProfessionalCard(pro)));
+  });
+  $("resultCount").textContent=currentProfessionals.length+" resultados";
+}
+
+function toggleFavorite(id) {
+  if(favorites.includes(id)) favorites=favorites.filter(x=>x!==id);
+  else favorites.push(id);
+  localStorage.setItem("teloHagoFavorites",JSON.stringify(favorites));
+  renderFavorites();
+}
+
+function renderFavorites() {
+  const container=$("favoritesResults");
+  container.innerHTML="";
+  const saved=currentProfessionals.filter(p=>favorites.includes(p.id));
+
+  if(saved.length===0) {
+    container.innerHTML='<div class="empty"><div class="empty-icon">♡</div>Todavía no tienes favoritos disponibles en esta sesión. Guarda profesionales desde sus fichas.</div>';
     return;
   }
 
-  professionalList.innerHTML = "";
-
-  data.forEach(pro => {
-    const card = document.createElement("article");
-    card.className = "professional";
-
-    if(pro.profile_photo) {
-      const img = document.createElement("img");
-      img.src = pro.profile_photo;
-      img.alt = "Foto del profesional";
-      card.appendChild(img);
-    }
-
-    const title = document.createElement("h3");
-    title.textContent = pro.profession || "Profesional";
-
-    const description = document.createElement("p");
-    description.textContent = pro.description || "Consulta con este profesional sus servicios.";
-
-    const area = document.createElement("p");
-    area.textContent = "📍 " + (pro.service_area || "Zona por confirmar");
-
-    const experience = document.createElement("p");
-    experience.textContent = "Experiencia: " +
-      (pro.experience_years === null ? "No indicada" : pro.experience_years + " años");
-
-    const price = document.createElement("p");
-    price.textContent = pro.hourly_rate
-      ? "Precio orientativo: " + pro.hourly_rate + " €/hora"
-      : "Precio: consultar";
-
-    const tag = document.createElement("span");
-    tag.className = "tag";
-    tag.textContent = "Perfil aprobado";
-
-    card.append(title,description,area,experience,price,tag);
-    professionalList.appendChild(card);
-  });
+  saved.forEach(pro=>container.append(createProfessionalCard(pro)));
 }
 
-document.getElementById("searchButton").addEventListener("click",loadProfessionals);
+async function loadHomeProfessionals() {
+  selectedCategory="";
+  await searchProfessionals("","");
+}
 
-document.getElementById("searchInput").addEventListener("keydown",function(event){
-  if(event.key==="Enter") loadProfessionals();
+$("homeSearchButton").addEventListener("click",()=>{
+  $("searchTerm").value=$("homeSearch").value.trim();
+  $("searchLocation").value=$("homeLocation").value.trim();
+  selectedCategory="";
+  showPage("searchPage");
+  searchProfessionals($("searchTerm").value,$("searchLocation").value);
+});
+
+$("doSearchButton").addEventListener("click",()=>{
+  selectedCategory="";
+  searchProfessionals($("searchTerm").value.trim(),$("searchLocation").value.trim());
+});
+
+$("searchTerm").addEventListener("keydown",e=>{
+  if(e.key==="Enter") $("doSearchButton").click();
+});
+
+$("homeSearch").addEventListener("keydown",e=>{
+  if(e.key==="Enter") $("homeSearchButton").click();
 });
 
 document.querySelectorAll(".category").forEach(button=>{
   button.addEventListener("click",()=>{
-    document.querySelectorAll(".category").forEach(item=>item.classList.remove("active"));
-
-    if(selectedCategory===button.dataset.category) {
-      selectedCategory="";
-    } else {
-      selectedCategory=button.dataset.category;
-      button.classList.add("active");
-    }
-
-    loadProfessionals();
+    selectedCategory=button.dataset.category;
+    $("searchTerm").value=selectedCategory;
+    $("searchLocation").value=$("homeLocation").value;
+    showPage("searchPage");
+    searchProfessionals(selectedCategory,$("searchLocation").value);
   });
 });
 
-document.getElementById("logoutButton").addEventListener("click",async()=>{
-  const {error}=await db.auth.signOut();
-
-  if(error) {
-    alert("No se ha podido cerrar la sesión.");
-    return;
-  }
-
-  await showAuth();
-  showLogin();
+$("allServicesButton").addEventListener("click",()=>{
+  selectedCategory="";
+  $("searchTerm").value="";
+  $("searchLocation").value=$("homeLocation").value;
+  showPage("searchPage");
+  $("searchTerm").focus();
+  $("searchResults").innerHTML='<div class="empty">Escribe cualquier oficio o servicio para encontrar profesionales.</div>';
 });
 
-db.auth.onAuthStateChange((event,session)=>{
-  if(event==="SIGNED_OUT") {
-    showAuth();
-  }
+document.querySelectorAll(".nav-button").forEach(button=>{
+  button.addEventListener("click",()=>{
+    showPage(button.dataset.page);
+  });
+});
+
+$("headerProfile").addEventListener("click",()=>showPage("profilePage"));
+
+$("logoutButton").addEventListener("click",async()=>{
+  const {error}=await db.auth.signOut();
+  if(error) return alert("No se ha podido cerrar la sesión: "+error.message);
+  currentUser=null;
+  showAuth();
+  switchAuth("login");
+});
+
+$("darkToggle").addEventListener("change",e=>{
+  document.body.classList.toggle("dark",e.target.checked);
+  localStorage.setItem("teloHagoDark",e.target.checked?"yes":"no");
+});
+
+if(localStorage.getItem("teloHagoDark")==="yes") {
+  document.body.classList.add("dark");
+  $("darkToggle").checked=true;
+}
+
+$("editDetailsButton").addEventListener("click",()=>showPage("detailsPage"));
+$("changePasswordButton").addEventListener("click",()=>showPage("passwordPage"));
+$("helpButton").addEventListener("click",()=>showPage("helpPage"));
+$("backProfileButton").addEventListener("click",()=>showPage("profilePage"));
+$("backProfileButton2").addEventListener("click",()=>showPage("profilePage"));
+$("backProfileButton3").addEventListener("click",()=>showPage("profilePage"));
+
+$("contactButton").addEventListener("click",()=>{
+  alert("El servicio de atención al cliente estará disponible próximamente.");
+});
+
+$("saveNameButton").addEventListener("click",async()=>{
+  if(!currentUser) return;
+  const name=$("editName").value.trim();
+  if(!name) return message("detailsMessage","Escribe tu nombre.",true);
+
+  const {error}=await db.from("profiles")
+    .update({full_name:name})
+    .eq("id",currentUser.id);
+
+  if(error) return message("detailsMessage","No se ha podido guardar: "+error.message,true);
+  $("profileName").textContent=name;
+  message("detailsMessage","Nombre actualizado correctamente.");
+});
+
+$("savePasswordButton").addEventListener("click",async()=>{
+  const p1=$("newPassword").value;
+  const p2=$("repeatPassword").value;
+
+  if(p1.length<8) return message("passwordMessage","La contraseña debe tener al menos 8 caracteres.",true);
+  if(p1!==p2) return message("passwordMessage","Las contraseñas no coinciden.",true);
+
+  const {error}=await db.auth.updateUser({password:p1});
+  if(error) return message("passwordMessage",error.message,true);
+
+  $("newPassword").value="";
+  $("repeatPassword").value="";
+  message("passwordMessage","Contraseña actualizada correctamente.");
 });
 
 async function initialize() {
   const {data,error}=await db.auth.getSession();
-
-  if(error) {
+  if(error || !data.session) {
     showAuth();
-    showMessage("No se ha podido comprobar la sesión. Inténtalo de nuevo.",true);
+    switchAuth("login");
     return;
   }
-
-  if(data.session) {
-    await showClient(data.session.user);
-  } else {
-    await showAuth();
-    showLogin();
-  }
+  showApplication(data.session.user);
 }
+
+db.auth.onAuthStateChange((event,session)=>{
+  if(event==="SIGNED_OUT") {
+    currentUser=null;
+    showAuth();
+  }
+  if(event==="PASSWORD_RECOVERY") {
+    showPage("passwordPage");
+  }
+});
 
 initialize();
 </script>
